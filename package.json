@@ -1,0 +1,26 @@
+{
+  "name": "nova",
+  "version": "0.0.1",
+  "description": "Webserver for controlling doodads using Johnny-Five",
+  "main": "index.js",
+  "scripts": {
+    "start": "yarn ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nase00/nova.git"
+  },
+  "author": "Sean Owiecki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nase00/nova/issues"
+  },
+  "homepage": "https://github.com/Nase00/nova#readme",
+  "dependencies": {
+    "johnny-five": "^0.10.6",
+    "koa": "2",
+    "koa-bodyparser": "next",
+    "redux": "^3.6.0",
+    "yarn": "^0.18.1"
+  }
+}
