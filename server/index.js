@@ -2,11 +2,18 @@
 /* globals console */
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
+import five from 'johnny-five';
+import pixel from 'node-pixel';
+
+import { EMIT_REGISTER_ACCESSORY, EMIT_ACCESSORY_VALUE } from 'ducks/devices';
+import store from 'store';
+import router from './routes';
 
 const server = new Koa();
 const port = process.env.PORT || 4000;
 
 server.use(bodyParser());
+server.use(router.routes());
 
 const run = async () => {
   console.log(`Listening on port ${port}`);
@@ -23,14 +30,14 @@ const run = async () => {
     }
   };
 
-  const types = {
+  const getTypes = (accessoryProps) => ({
     strip: (board, accessoryProps) => new pixel.Strip({
-      ...accessorieProps,
+      ...accessoryProps,
       board
     }),
     mic: (pin) => new five.Sensor(pin),
     piezo: (pin) => new five.Piezo(pin)
-  };
+  });
 
   Object.keys(boards).forEach((boardKey) => {
     const board = new five.Board({ repl: false });
@@ -42,13 +49,15 @@ const run = async () => {
 
     board.on('ready', () => {
       Object.keys(accessoriesProps).forEach((accessoryPropsKey) => {
-        const accessoryProps = accessories[accessoryKey];
-        const accessoryCreator = types[accessoryProps.type];
+        const accessoryProps = accessoriesProps[accessoryPropsKey];
+
+        const accessoryCreator = getTypes(accessoryProps)[accessoryProps.type];
         const accessory = accessoryCreator(board, accessoryProps);
 
         store.dispatch({
           type: EMIT_REGISTER_ACCESSORY,
-          accessoryKey,
+          boardKey,
+          accessoryPropsKey,
           accessory
         });
 

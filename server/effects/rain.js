@@ -1,3 +1,8 @@
+import { getPositions, random } from 'utils';
+import { UP, DOWN, FPS } from 'constants';
+
+let interval;
+
 export const rain = {
   start(strip, stripLength) {
     const rgbBiases = ['RED', 'BLUE'];
