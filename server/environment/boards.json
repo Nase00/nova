@@ -1,0 +1,11 @@
+{
+  "1": {
+    "deskLight": {
+      "type": "strip",
+      "data": 6,
+      "length": 60,
+      "color_order": "GRB",
+      "controller": "FIRMATA"
+    }
+  }
+}
