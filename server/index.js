@@ -5,13 +5,13 @@ import bodyParser from 'koa-bodyparser';
 import five from 'johnny-five';
 
 import { EMIT_REGISTER_ACCESSORY, EMIT_ACCESSORY_VALUE } from 'ducks/devices';
-import { getAccessoryClass } from 'utils';
-import store from 'store';
-import router from './routes';
 import { boards } from 'environment';
+import store from 'store';
+import { getAccessoryClass } from 'utils';
+import router from './routes';
 
 const server = new Koa();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4001;
 
 server.use(bodyParser());
 server.use(router.routes());
