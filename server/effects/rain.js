@@ -1,9 +1,10 @@
+import { RED_BIAS, GREEN_BIAS, BLUE_BIAS, BLACK, UP, DOWN, FPS } from 'constants';
 import { getPositions, random } from 'utils';
-import { UP, DOWN, FPS } from 'constants';
 
-const rain = (strip, { length }) => {
-  const rgbBiases = ['RED', 'BLUE'];
-  const generateColor = (r, g, b) => `rgb(${r}, ${0}, ${b})`;
+const rain = (strip, { length }, { rgbBiases = [RED_BIAS, BLUE_BIAS] }) => {
+  strip.color(BLACK);
+
+  const generateColor = (r = 0, g = 0, b = 0) => `rgb(${r}, ${g}, ${b})`;
   const generateRGBBias = () => rgbBiases[random(rgbBiases.length + 1) - 1];
   const createDrop = () => ({
     color: generateColor(0, 0, 0),
@@ -41,12 +42,12 @@ const rain = (strip, { length }) => {
       }
 
       const tunedDown = Math.max(drop.intensity - 50, 0);
-      if (drop.rgbBiases === 'RED') {
-        drop.color = generateColor(drop.intensity, tunedDown, tunedDown);
-      } else if (drop.rgbBias === 'GREEN') {
+      if (drop.rgbBiases === RED_BIAS) {
+        drop.color = generateColor(drop.intensity, 0, tunedDown);
+      } else if (drop.rgbBias === GREEN_BIAS) {
         drop.color = generateColor(tunedDown, drop.intensity, tunedDown);
-      } else if (drop.rgbBias === 'BLUE') {
-        drop.color = generateColor(tunedDown, tunedDown, drop.intensity);
+      } else if (drop.rgbBias === BLUE_BIAS) {
+        drop.color = generateColor(tunedDown, 0, drop.intensity);
       }
     });
   }, 1000 / FPS);

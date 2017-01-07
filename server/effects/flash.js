@@ -1,15 +1,9 @@
 import { UP, DOWN, BLACK, FPS } from 'constants';
 
-const colorGenerators = {
-  red: (intensity) => `rgb(${intensity}, 0, 0)`,
-  green: (intensity) => `rgb(0, ${intensity}, 0)`,
-  blue: (intensity) => `rgb(0, 0, ${intensity})`,
-  purple: (intensity) => `rgb(${intensity}, 0, ${intensity})`
-};
+import { colorGenerators } from 'utils';
 
-const flash = (strip, options, params) => {
+const flash = (strip, options, { color }) => {
   strip.color(BLACK);
-  const { color } = params;
   const getColor = colorGenerators[color];
 
   let intensity = 0;
