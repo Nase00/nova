@@ -10,6 +10,7 @@
         "controllers": "./server/controllers",
         "ducks": "./server/ducks",
         "effects": "./server/effects",
+        "environment": "./environment/",
         "store": "./server/store",
         "utils": "./server/utils"
       }
