@@ -1,16 +1,12 @@
-import { HueApi } from 'node-hue-api';
-import { get } from 'lodash';
+import { cloneDeep, get, set } from 'lodash';
 
-import { DESK_LIGHT_STRIP_PRIMARY,
-         DESK_LIGHT_STRIP_PRIMARY_LENGTH } from 'constants';
-import { cloneDeep, set } from 'lodash';
-
+import { durations } from 'constants';
+import effects from 'effects';
 import { handleAction } from 'utils';
-import * as effects from 'effects';
 
 export const EMIT_REGISTER_BOARD = 'EMIT_REGISTER_BOARD';
 
-export const EMIT_REGISTER_ACCESSORY = 'EMIT_REGISTER_ACCESSORY;'
+export const EMIT_REGISTER_ACCESSORY = 'EMIT_REGISTER_ACCESSORY';
 export const EMIT_ACCESSORY_VALUE = 'EMIT_ACCESSORY_VALUE';
 
 export const EMIT_EFFECT_TRIGGER = 'EMIT_EFFECT_TRIGGER';
@@ -31,9 +27,9 @@ const boardsReducer = (state = initialState, action) => {
 
     [EMIT_REGISTER_ACCESSORY]: () => {
       const newState = cloneDeep(state);
-      const { boardkey, accessoryPropsKey, accessory } = action;
+      const { boardKey, accessoryPropsKey, accessory, options } = action;
 
-      set(newState, `[${action.boardKey}][${action.accessoryPropsKey}]`, accessory);
+      set(newState, `${boardKey}.${accessoryPropsKey}`, { accessory, options });
 
       return newState;
     },
@@ -41,12 +37,34 @@ const boardsReducer = (state = initialState, action) => {
     [EMIT_ACCESSORY_VALUE]: () => state,
 
     [EMIT_EFFECT_TRIGGER]: () => {
-      const { boardKey, accessoryKey } = action;
-      const device = get(state, `[${boardKey}].${accessoryKey}`, false);
+      const { boardKey, accessoryKey, params } = action;
+      const { accessory, options } = get(state, `${boardKey}.${accessoryKey}`, false);
       const effect = effects[action.effect];
 
-      if (device && effect) {
-        effects[action.effect].start(device, 60);
+      if (accessory && effect) {
+        clearInterval(state.interval);
+
+        const newEffect = effects[action.effect];
+        const interval = newEffect(accessory, options, params);
+        const duration = durations[action.effect] || durations[state.previousEffect];
+
+        const newState = {
+          ...state,
+          interval
+        };
+
+        if (duration && state.previousEffect && newEffect !== state.previousEffect) {
+          setTimeout(() => {
+            clearInterval(interval);
+            // TODO yuck, async!
+            newState.interval = state.previousEffect(accessory, ...state.previousArgs);
+          }, duration);
+        } else {
+          newState.previousEffect = newEffect;
+          newState.previousArgs = [options, params];
+        }
+
+        return newState;
       }
 
       return state;

@@ -1,3 +1,5 @@
+/* eslint import/prefer-default-export:0 */
+
 /**
  * @param {object} state
  * @param {object} action

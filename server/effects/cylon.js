@@ -1,69 +1,66 @@
 /* eslint operator-assignment:0 */
 /* globals setInterval, clearInterval, setTimeout */
-import { FPS, UP, DOWN, BLACK, RESET_DESK_LIGHT_STRIP_TIMEOUT } from 'constants';
-import { getPositions } from './devices';
+import { UP, DOWN, BLACK, FPS } from 'constants';
+import { getPositions } from 'utils';
 
-const random = (cap) => Math.floor(Math.random() * (cap - 1)) + 1;
+const cylon = (strip, { length }) => {
+  const positions = getPositions(length);
 
-let interval;
+  let red = 100;
+  let blue = 0;
+  let blueDirection = UP;
+  let redDirection = DOWN;
+  let direction = UP;
+  let valueToLight = 0;
 
-export const cylonEye = {
-  start(strip, stripLength) {
-    const positions = getPositions(stripLength);
+  const interval = setInterval(() => {
+    strip.color(BLACK);
 
-    let red = 100;
-    let blue = 0;
-    let blueDirection = UP;
-    let redDirection = DOWN;
-    let direction = UP;
-    let valueToLight = 0;
+    if (blue >= 255) {
+      blueDirection = DOWN;
+    } else if (blue <= 0) {
+      blueDirection = UP;
+    }
 
-    interval = setInterval(() => {
-      strip.color(BLACK);
+    if (blueDirection === UP) {
+      blue++;
+    } else {
+      blue--;
+    }
 
-      if (blue >= 255) {
-        blueDirection = DOWN;
-      } else if (blue <= 0) {
-        blueDirection = UP;
-      }
+    if (red >= 100) {
+      redDirection = DOWN;
+    } else if (red <= 0) {
+      redDirection = UP;
+    }
 
-      if (blueDirection === UP) {
-        blue++;
-      } else {
-        blue--;
-      }
+    if (redDirection === UP) {
+      red++;
+    } else {
+      red--;
+    }
 
-      if (red >= 100) {
-        redDirection = DOWN;
-      } else if (red <= 0) {
-        redDirection = UP;
-      }
+    if (valueToLight >= length - 1) {
+      direction = DOWN;
+    }
 
-      if (redDirection === UP) {
-        red++;
-      } else {
-        red--;
-      }
+    if (valueToLight <= 0) {
+      direction = UP;
+    }
 
-      if (valueToLight >= stripLength - 1) {
-        direction = DOWN;
-      }
+    if (direction === UP) {
+      valueToLight++;
+    } else {
+      valueToLight--;
+    }
 
-      if (valueToLight <= 0) {
-        direction = UP;
-      }
+    const color = `rgb(${red}, ${0}, ${blue})`;
 
-      if (direction === UP) {
-        valueToLight++;
-      } else {
-        valueToLight--;
-      }
+    strip.pixel(positions[valueToLight]).color(color);
+    strip.show();
+  }, 1000 / FPS);
 
-      const color = `rgb(${red}, ${0}, ${blue})`;
-
-      strip.pixel(positions[valueToLight]).color(color);
-      strip.show();
-    }, 1000 / FPS);
-  }
+  return interval;
 };
 
+export default cylon;

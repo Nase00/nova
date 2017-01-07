@@ -30,8 +30,8 @@ const run = async () => {
     }
   };
 
-  const getTypes = (accessoryProps) => ({
-    strip: (board, accessoryProps) => new pixel.Strip({
+  const getAccessoryClass = (accessoryProps) => ({
+    strip: (board) => new pixel.Strip({
       ...accessoryProps,
       board
     }),
@@ -50,12 +50,12 @@ const run = async () => {
     board.on('ready', () => {
       Object.keys(accessoriesProps).forEach((accessoryPropsKey) => {
         const accessoryProps = accessoriesProps[accessoryPropsKey];
-
-        const accessoryCreator = getTypes(accessoryProps)[accessoryProps.type];
-        const accessory = accessoryCreator(board, accessoryProps);
+        const initializeAccessory = getAccessoryClass(accessoryProps)[accessoryProps.type];
+        const accessory = initializeAccessory(board, accessoryProps);
 
         store.dispatch({
           type: EMIT_REGISTER_ACCESSORY,
+          options: boards[boardKey][accessoryPropsKey],
           boardKey,
           accessoryPropsKey,
           accessory
