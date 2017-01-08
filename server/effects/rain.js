@@ -1,7 +1,12 @@
+import { get } from 'lodash';
+
 import { RED_BIAS, GREEN_BIAS, BLUE_BIAS, BLACK, UP, DOWN, FPS } from 'constants';
 import { getPositions, random } from 'utils';
 
-const rain = (strip, { length }, { rgbBiases = [RED_BIAS, BLUE_BIAS] }) => {
+const defaultParams = { rgbBiases: [RED_BIAS, BLUE_BIAS] };
+
+const rain = (strip, { length }, params) => {
+  const rgbBiases = get(params, 'rgbBiases', defaultParams.rgbBiases);
   strip.color(BLACK);
 
   const generateColor = (r = 0, g = 0, b = 0) => `rgb(${r}, ${g}, ${b})`;
