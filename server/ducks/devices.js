@@ -41,9 +41,9 @@ const boardsReducer = (state = initialState, action) => {
       const { accessory, options } = get(state, `${boardKey}.${accessoryKey}`, false);
       const effect = effects[action.effect];
 
-      if (accessory && effect) {
-        clearInterval(state.interval);
+      clearInterval(state.interval);
 
+      if (accessory && effect) {
         const newEffect = effects[action.effect];
         const interval = newEffect(accessory, options, params);
         const duration = durations[action.effect] || durations[state.previousEffect];
@@ -57,7 +57,7 @@ const boardsReducer = (state = initialState, action) => {
           setTimeout(() => {
             clearInterval(interval);
             // TODO yuck, async!
-            newState.interval = state.previousEffect(accessory, ...state.previousArgs);
+            state.interval = state.previousEffect(accessory, ...state.previousArgs);
           }, duration);
         } else {
           newState.previousEffect = newEffect;
