@@ -13,6 +13,14 @@ export const EMIT_EFFECT_TRIGGER = 'EMIT_EFFECT_TRIGGER';
 
 const initialState = {};
 
+/*
+ * TODO - Possibly reintegrate back into Redux state.
+ * This is a hack to prevent memory leaks from multiple-running intervals.
+ * Redux store may not be the best place this store this reference, anyways.
+ * But it would be nice to have accessible from other reducers.
+ */
+let interval;
+
 const boardsReducer = (state = initialState, action) => {
   const reducers = {
     [EMIT_REGISTER_BOARD]: () => ({
@@ -41,23 +49,21 @@ const boardsReducer = (state = initialState, action) => {
       const { accessory, options } = get(state, `${boardKey}.${accessoryKey}`, false);
       const effect = effects[action.effect];
 
-      clearInterval(state.interval);
+      clearInterval(interval);
 
       if (accessory && effect) {
         const newEffect = effects[action.effect];
-        const interval = newEffect(accessory, options, params);
+        interval = newEffect(accessory, options, params);
         const duration = durations[action.effect] || durations[state.previousEffect];
 
         const newState = {
-          ...state,
-          interval
+          ...state
         };
 
         if (duration && state.previousEffect && newEffect !== state.previousEffect) {
           setTimeout(() => {
             clearInterval(interval);
-            // TODO yuck, async!
-            state.interval = state.previousEffect(accessory, ...state.previousArgs);
+            interval = state.previousEffect(accessory, ...state.previousArgs);
           }, duration);
         } else {
           newState.previousEffect = newEffect;
