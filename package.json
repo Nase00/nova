@@ -1,7 +1,7 @@
 {
   "name": "nova",
-  "version": "0.0.1",
-  "description": "Webserver for controlling doodads using Johnny-Five",
+  "version": "1.0.0",
+  "description": "Webserver for controlling effects on addressable WS2812 LEDs",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
@@ -12,11 +12,21 @@
     "type": "git",
     "url": "git+https://github.com/Nase00/nova.git"
   },
+  "engines": {
+    "node": "^8.3.0",
+    "npm": "^5.3.0"
+  },
   "author": "Sean Owiecki",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Nase00/nova/issues"
   },
+  "keywords": [
+    "neopixels",
+    "neo pixels",
+    "WS2812",
+    "leds"
+  ],
   "homepage": "https://github.com/Nase00/nova#readme",
   "dependencies": {
     "babel-plugin-module-resolver": "^2.4.0",
@@ -34,6 +44,7 @@
     "node-hue-api": "^2.3.0",
     "node-pixel": "^0.8.2",
     "redux": "^3.6.0",
+    "rpi-ws281x-native": "0.8.2",
     "yarn": "^0.18.1"
   },
   "devDependencies": {
