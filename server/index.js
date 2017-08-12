@@ -4,6 +4,7 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 
 import boardsController from './controllers/boards';
+import raspiController from './controllers/raspi';
 import router from './routes';
 
 const server = new Koa();
@@ -15,7 +16,8 @@ server.use(router.routes());
 const run = async () => {
   console.log(`Listening on port ${port}`);
 
-  boardsController();
+  // boardsController();
+  raspiController();
 
   await server.listen(port);
 };
