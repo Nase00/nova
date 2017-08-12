@@ -8,6 +8,7 @@ export const EMIT_REGISTER_BOARD = 'EMIT_REGISTER_BOARD';
 
 export const EMIT_REGISTER_ACCESSORY = 'EMIT_REGISTER_ACCESSORY';
 export const EMIT_ACCESSORY_VALUE = 'EMIT_ACCESSORY_VALUE';
+export const EMIT_REGISTER_RASPI = 'EMIT_REGISTER_RASPI';
 
 export const EMIT_EFFECT_TRIGGER = 'EMIT_EFFECT_TRIGGER';
 
@@ -41,6 +42,11 @@ const boardsReducer = (state = initialState, action) => {
 
       return newState;
     },
+
+    [EMIT_REGISTER_RASPI]: () => ({
+      ...state,
+      pixelData: action.pixelData
+    }),
 
     [EMIT_ACCESSORY_VALUE]: () => state,
 

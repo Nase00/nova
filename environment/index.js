@@ -9,5 +9,13 @@ const readFile = (fileName) => {
 };
 
 const boards = readFile('../environment/boards.json');
+const raspi = readFile('../environment/raspi.json');
 
-export { boards };
+export const defaultEnvironment = {
+  boards: { ...boards },
+  raspi: {
+    leds: 60,
+    pin: 18,
+    ...raspi
+  }
+};
