@@ -8,12 +8,11 @@ import store from 'store';
 const raspiController = () => {
   // TODO replace rpi-ws281x-native example
   const pixelData = new Uint32Array(raspi.leds);
-
   ws281x.init(raspi.leds);
 
   store.dispatch({
     type: EMIT_REGISTER_RASPI,
-    pixelData
+    pixelData,
   });
 
   // ---- trap the SIGINT and reset before exit

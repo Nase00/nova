@@ -16,7 +16,7 @@ server.use(router.routes());
 const run = async () => {
   console.log(`Listening on port ${port}`);
 
-  // boardsController();
+  boardsController();
   raspiController();
 
   await server.listen(port);

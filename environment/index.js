@@ -14,27 +14,36 @@ const getEnv = () => {
   let raspi = {};
 
   try {
-    boards = readJSON('../environment/boards.json');
+    boards = readJSON('./boards.json');
   } catch (e) {
-    console.log('No boards configuration found.');
+    console.log('No boards configuration found.', e);
   }
 
   try {
-    raspi = readJSON('../environment/raspi.json');
+    raspi = readJSON('./raspi.json');
   } catch (e) {
-    console.log('No raspi configuration found.');
+    console.log('No raspi configuration found.', e);
   }
 
   return { boards, raspi };
 };
 
-const { boards, raspi } = getEnv();
+const userEnv = getEnv();
 
-export const defaultEnvironment = {
-  boards: { ...boards },
+const defaultEnv = {
+  boards: {},
   raspi: {
     leds: 60,
     pin: 18,
-    ...raspi
-  }
+  },
+};
+
+export const raspi = {
+  ...defaultEnv.raspi,
+  ...userEnv.raspi,
+};
+
+export const boards = {
+  ...defaultEnv.boards,
+  ...userEnv.boards,
 };
