@@ -34,16 +34,16 @@ const defaultEnv = {
   boards: {},
   raspi: {
     leds: 60,
-    pin: 18,
-  },
+    pin: 18
+  }
 };
 
 export const raspi = {
   ...defaultEnv.raspi,
-  ...userEnv.raspi,
+  ...userEnv.raspi
 };
 
 export const boards = {
   ...defaultEnv.boards,
-  ...userEnv.boards,
+  ...userEnv.boards
 };

@@ -13,6 +13,7 @@ const raspiController = () => {
   store.dispatch({
     type: EMIT_REGISTER_RASPI,
     pixelData,
+    options: { length: raspi.leds }
   });
 
   // ---- trap the SIGINT and reset before exit

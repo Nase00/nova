@@ -1,8 +1,8 @@
-import { cloneDeep, get, set } from 'lodash';
+import { cloneDeep, set } from 'lodash';
 
 import { durations } from 'constants';
 import effects from 'effects';
-import { handleAction } from 'utils';
+import { getDevice, handleAction } from 'utils';
 
 export const EMIT_REGISTER_BOARD = 'EMIT_REGISTER_BOARD';
 
@@ -45,14 +45,15 @@ const boardsReducer = (state = initialState, action) => {
 
     [EMIT_REGISTER_RASPI]: () => ({
       ...state,
-      pixelData: action.pixelData
+      pixelData: action.pixelData,
+      options: action.options
     }),
 
     [EMIT_ACCESSORY_VALUE]: () => state,
 
     [EMIT_EFFECT_TRIGGER]: () => {
-      const { boardKey, accessoryKey, params } = action;
-      const { accessory, options } = get(state, `${boardKey}.${accessoryKey}`, false);
+      const { params } = action;
+      const { accessory, options } = getDevice(action, state);
       const effect = effects[action.effect];
 
       clearInterval(interval);
