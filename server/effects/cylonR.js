@@ -1,11 +1,8 @@
 /* eslint operator-assignment:0 */
 /* globals setInterval, clearInterval, setTimeout */
 import { UP, DOWN, FPS } from 'constants';
-import { getPositions } from 'utils';
 
 const cylonR = (ws281x, pixelData) => {
-  const positions = getPositions(pixelData.length);
-
   let red = 100;
   let blue = 0;
   let blueDirection = UP;
@@ -54,7 +51,7 @@ const cylonR = (ws281x, pixelData) => {
 
     const color = `rgb(${red}, ${0}, ${blue})`;
 
-    pixelData[positions[valueToLight]] = color;
+    pixelData[valueToLight] = color;
     ws281x.render(pixelData);
   }, 1000 / FPS);
 
