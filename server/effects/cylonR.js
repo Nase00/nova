@@ -1,6 +1,8 @@
-/* eslint operator-assignment:0 */
+/* eslint operator-assignment:0, no-bitwise:0 */
 /* globals setInterval, clearInterval, setTimeout */
 import { UP, DOWN, FPS } from 'constants';
+
+const rgb2Int = (r, g, b) => ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 
 const cylonR = (ws281x, pixelData) => {
   let red = 100;
@@ -49,8 +51,8 @@ const cylonR = (ws281x, pixelData) => {
       valueToLight--;
     }
 
-    const color = `rgb(${red}, ${0}, ${blue})`;
-    console.log(valueToLight);
+    const color = rgb2Int(red, 0, blue);
+
     pixelData[valueToLight] = color;
     ws281x.render(pixelData);
   }, 1000 / FPS);
