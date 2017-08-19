@@ -1,11 +1,11 @@
 /* eslint no-mixed-operators:0 */
-import ws281x from "rpi-ws281x-native";
+import ws281x from 'rpi-ws281x-native';
 
-import { raspi } from "environment";
-import { EMIT_REGISTER_RASPI } from "ducks/devices";
-import store from "store";
+import { raspi } from 'environment';
+import { EMIT_REGISTER_RASPI } from 'ducks/devices';
+import store from 'store';
 
-import { cylonR } from 'effects';
+import cylonR from 'effects/cylonR';
 
 const raspiController = () => {
   // TODO replace rpi-ws281x-native example
@@ -19,7 +19,7 @@ const raspiController = () => {
   });
 
   // ---- trap the SIGINT and reset before exit
-  process.on("SIGINT", () => {
+  process.on('SIGINT', () => {
     ws281x.reset();
     process.nextTick(() => process.exit(0));
   });
