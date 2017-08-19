@@ -13,7 +13,7 @@ const cylonR = (ws281x, options) => {
   let valueToLight = 0;
 
   const interval = setInterval(() => {
-    const pixelData = new Uint32Array(options.leds);
+    const pixelData = new Uint32Array(options.length);
 
     if (blue >= 255) {
       blueDirection = DOWN;
