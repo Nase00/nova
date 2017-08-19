@@ -5,7 +5,7 @@ import { raspi } from 'environment';
 import { EMIT_REGISTER_RASPI } from 'ducks/devices';
 import store from 'store';
 
-import cylon from 'effects/cylonR';
+import cylon from 'effects/cylon';
 
 const raspiController = () => {
   ws281x.init(raspi.length);
