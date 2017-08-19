@@ -8,11 +8,11 @@ import store from 'store';
 import cylonR from 'effects/cylonR';
 
 const raspiController = () => {
-  ws281x.init(raspi.leds);
+  ws281x.init(raspi.length);
 
   store.dispatch({
     type: EMIT_REGISTER_RASPI,
-    options: { length: raspi.leds }
+    raspi
   });
 
   // ---- trap the SIGINT and reset before exit
@@ -21,7 +21,7 @@ const raspiController = () => {
     process.nextTick(() => process.exit(0));
   });
 
-  cylonR(ws281x, raspi.leds);
+  cylonR(ws281x, raspi);
 
   // for (let i = 0; i < raspi.leds; i++) {
   //   pixelData[i] = 0xffcc22;

@@ -4,7 +4,7 @@ import { UP, DOWN, FPS } from 'constants';
 
 const rgb2Int = (r, g, b) => ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 
-const cylonR = (ws281x, options) => {
+const cylonR = (ws281x, raspi) => {
   let red = 100;
   let blue = 0;
   let blueDirection = UP;
@@ -13,7 +13,7 @@ const cylonR = (ws281x, options) => {
   let valueToLight = 0;
 
   const interval = setInterval(() => {
-    const pixelData = new Uint32Array(options.length);
+    const pixelData = new Uint32Array(raspi.length);
 
     if (blue >= 255) {
       blueDirection = DOWN;
