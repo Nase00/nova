@@ -1,12 +1,12 @@
 /* eslint import/prefer-default-export:0 */
 /* eslint no-console:0 */
-import path from 'path';
-import { readFileSync } from 'fs';
+import path from "path";
+import { readFileSync } from "fs";
 
-const readJSON = (fileName) => {
+const readJSON = fileName => {
   const filePath = path.join(__dirname, fileName);
 
-  return JSON.parse(readFileSync(filePath, 'utf8'));
+  return JSON.parse(readFileSync(filePath, "utf8"));
 };
 
 const getEnv = () => {
@@ -14,15 +14,15 @@ const getEnv = () => {
   let raspi = {};
 
   try {
-    boards = readJSON('./boards.json');
+    boards = readJSON("./boards.json");
   } catch (e) {
-    console.log('No boards configuration found.', e);
+    console.log("No boards configuration found.", e);
   }
 
   try {
-    raspi = readJSON('./raspi.json');
+    raspi = readJSON("./raspi.json");
   } catch (e) {
-    console.log('No raspi configuration found.', e);
+    console.log("No raspi configuration found.", e);
   }
 
   return { boards, raspi };
