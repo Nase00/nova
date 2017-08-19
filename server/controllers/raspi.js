@@ -5,7 +5,7 @@ import { raspi } from 'environment';
 import { EMIT_REGISTER_RASPI } from 'ducks/devices';
 import store from 'store';
 
-import cylonR from 'effects/cylonR';
+import cylon from 'effects/cylonR';
 
 const raspiController = () => {
   ws281x.init(raspi.length);
@@ -21,7 +21,7 @@ const raspiController = () => {
     process.nextTick(() => process.exit(0));
   });
 
-  cylonR(ws281x, raspi);
+  // cylon(ws281x, raspi);
 
   // for (let i = 0; i < raspi.leds; i++) {
   //   pixelData[i] = 0xffcc22;
