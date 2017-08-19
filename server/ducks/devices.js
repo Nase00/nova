@@ -45,7 +45,6 @@ const boardsReducer = (state = initialState, action) => {
 
     [EMIT_REGISTER_RASPI]: () => ({
       ...state,
-      pixelData: action.pixelData,
       options: action.options
     }),
 
