@@ -8,13 +8,10 @@ import store from 'store';
 import cylonR from 'effects/cylonR';
 
 const raspiController = () => {
-  // TODO replace rpi-ws281x-native example
-  const pixelData = new Uint32Array(raspi.leds);
   ws281x.init(raspi.leds);
 
   store.dispatch({
     type: EMIT_REGISTER_RASPI,
-    pixelData,
     options: { length: raspi.leds }
   });
 
@@ -24,7 +21,7 @@ const raspiController = () => {
     process.nextTick(() => process.exit(0));
   });
 
-  cylonR(ws281x, pixelData);
+  cylonR(ws281x, raspi.leds);
 
   // for (let i = 0; i < raspi.leds; i++) {
   //   pixelData[i] = 0xffcc22;

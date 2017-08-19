@@ -4,7 +4,7 @@ import { UP, DOWN, FPS } from 'constants';
 
 const rgb2Int = (r, g, b) => ((r & 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
 
-const cylonR = (ws281x, pixelData) => {
+const cylonR = (ws281x, options) => {
   let red = 100;
   let blue = 0;
   let blueDirection = UP;
@@ -13,6 +13,8 @@ const cylonR = (ws281x, pixelData) => {
   let valueToLight = 0;
 
   const interval = setInterval(() => {
+    const pixelData = new Uint32Array(options.leds);
+
     if (blue >= 255) {
       blueDirection = DOWN;
     } else if (blue <= 0) {
