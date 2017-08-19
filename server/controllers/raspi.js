@@ -5,6 +5,8 @@ import { raspi } from 'environment';
 import { EMIT_REGISTER_RASPI } from 'ducks/devices';
 import store from 'store';
 
+import { cylonR } from 'effects';
+
 const raspiController = () => {
   // TODO replace rpi-ws281x-native example
   const pixelData = new Uint32Array(raspi.leds);
@@ -22,23 +24,25 @@ const raspiController = () => {
     process.nextTick(() => process.exit(0));
   });
 
-  for (let i = 0; i < raspi.leds; i++) {
-    pixelData[i] = 0xffcc22;
-  }
-  ws281x.render(pixelData);
+  cylonR(ws281x, pixelData);
 
-  // ---- animation-loop
-  let offset = 0;
-  setInterval(() => {
-    let i = raspi.leds;
-    while (i--) {
-      pixelData[i] = 0;
-    }
-    pixelData[offset] = 0xffffff;
+  // for (let i = 0; i < raspi.leds; i++) {
+  //   pixelData[i] = 0xffcc22;
+  // }
+  // ws281x.render(pixelData);
 
-    offset = (offset + 1) % raspi.leds;
-    ws281x.render(pixelData);
-  }, 100);
+  // // ---- animation-loop
+  // let offset = 0;
+  // setInterval(() => {
+  //   let i = raspi.leds;
+  //   while (i--) {
+  //     pixelData[i] = 0;
+  //   }
+  //   pixelData[offset] = 0xffffff;
+
+  //   offset = (offset + 1) % raspi.leds;
+  //   ws281x.render(pixelData);
+  // }, 100);
 };
 
 export default raspiController;
