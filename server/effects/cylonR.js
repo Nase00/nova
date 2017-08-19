@@ -55,7 +55,7 @@ const cylonR = (ws281x, pixelData) => {
     const color = `rgb(${red}, ${0}, ${blue})`;
 
     pixelData[positions[valueToLight]] = color;
-    ws281x.render();
+    ws281x.render(pixelData);
   }, 1000 / FPS);
 
   return interval;
